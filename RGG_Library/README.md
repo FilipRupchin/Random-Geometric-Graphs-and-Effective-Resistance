@@ -221,16 +221,135 @@ res, deg_sums, dists, pairs = RGGBuilder.compute_all_pairs_metrics(G)
 
 ---
 
+### `RGGVisualizer`
+
+An interactive HTML visualizer for RGGs built on **Plotly**. It renders a graph at its geometric positions and produces a self-contained `.html` file you can open in any browser. The file includes a live inspection panel that lets you click any two nodes and read off their distances and effective resistance — no Python required after the file is generated.
+
+> **Note:** All nodes must have a `"pos"` attribute (a 2D coordinate) before visualizing. This is set automatically by `RGGBuilder`.
+
+---
+
+#### Basic Usage
+
+**Step 1 — Create the visualizer and point it at your graph:**
+
+```python
+# Option A: pass the graph directly to the constructor
+viz = RGGVisualizer(G=G)
+
+# Option B: use from_networkx (useful for method chaining)
+viz = RGGVisualizer().from_networkx(G)
+```
+
+**Step 2 — Generate the HTML file:**
+
+```python
+viz.show_html("my_graph.html")
+```
+
+This prints progress to the console, computes all pairwise metrics, and writes `my_graph.html` to your working directory.
+
+**Step 3 — Open the file in your browser:**
+
+Simply open `my_graph.html` in any modern browser (Chrome, Firefox, Safari). No server or internet connection is needed — all data and Plotly are self-contained in the file.
+
+---
+
+#### `show_html(filename, largest_gc, metric)`
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `filename` | `str` | `"rgg.html"` | Path and name of the output HTML file. |
+| `largest_gc` | `bool` | `False` | If `True`, only renders the largest connected component. Recommended when using the supercritical (`"sc"`) regime, which may leave isolated nodes. |
+| `metric` | `str` | `"toroidal"` | Label shown in the plot title. Distance computations always use the toroidal metric regardless of this value. |
+
+**Returns:** `str` — the output `filename`.
+
+> ⚠️ **Performance Warning:** Before writing the file, `show_html` computes the full dense Laplacian pseudoinverse to pre-calculate every pairwise effective resistance. This is `O(N³)` in time and `O(N²)` in memory. Expect it to be slow for `N > ~1000` nodes. For large graphs, consider using `sample_commute_times_even_distance` for analysis instead.
+
+---
+
+#### Using the Interactive Browser Interface
+
+Once the HTML file is open in a browser, you have full control over the graph view and can inspect any pair of nodes.
+
+**Navigating the graph:**
+- **Scroll** to zoom in and out.
+- **Click and drag** on the background to pan around the canvas.
+- **Double-click** on the background to reset the view to the full graph.
+
+**Inspecting a pair of nodes:**
+
+The info panel is pinned to the top-right corner of the page. To use it:
+
+1. **Click any node** on the graph. It will be highlighted and the panel will show its node ID and prompt you to select a second node.
+2. **Click a second node.** The panel immediately updates to show the following metrics for the selected pair:
+   - **Euclidean distance** — straight-line distance in `[0,1]²`
+   - **Toroidal distance** — minimum image distance accounting for periodic boundaries
+   - **Effective resistance** `R_eff(u, v)` — computed via the Laplacian pseudoinverse
+   - **Degree prediction** `1/deg(u) + 1/deg(v)` — the sume fo the inverse degrees of the nodes
+3. Clicking a **third node** automatically drops the oldest selection and starts a new pair.
+4. Press **Clear Selection** in the panel to deselect all nodes and reset the display.
+
+**Note on wrap edges:** Edges that cross the torus boundary (i.e. connecting a node near `x=0` to one near `x=1`) are intentionally hidden in the visualization. This prevents long diagonal lines from cluttering the display, as these edges are artefacts of the torus topology rather than long-range connections.
+
+---
+
+#### `from_networkx(G)`
+
+Sets the graph on an already-instantiated visualizer and returns `self`, allowing method chaining.
+
+```python
+# Equivalent to RGGVisualizer(G=G).show_html("out.html")
+RGGVisualizer().from_networkx(G).show_html("out.html")
+```
+
+**Parameters:**
+- `G` (`nx.Graph`): A graph with `"pos"` node attributes.
+
+**Returns:** `RGGVisualizer` — the instance itself.
+
+---
+
+#### Constructor Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `G` | `nx.Graph` | `None` | Graph to visualize. Can be set later with `from_networkx`. |
+| `scale` | `int` | `800` | Canvas scale in pixels. |
+
+---
+
+#### Internal Methods
+
+These are used internally by `show_html` and are not intended for direct use.
+
+`_is_wrap_edge(p, q)` — detects if an edge crosses the torus boundary by checking if either coordinate differs by more than `0.5`. Used to suppress wrap-around edges from the rendered graph.
+
+`_get_component(largest)` — returns either the full graph or its largest connected component.
+
+`_ensure_pos(G)` — validates that all nodes have a 2D `"pos"` attribute and returns a cleaned `{node_id: (x, y)}` dictionary. Raises `ValueError` if any node is missing a position.
+
+`_compute_pair_info(G, metric)` — computes Euclidean distance, toroidal distance, effective resistance, and `1/deg(u) + 1/deg(v)` for every pair of nodes within the same connected component. The result is serialized as a JSON blob embedded directly in the HTML, enabling instant lookups in the browser without any server-side calls.
+
+---
+
 ## Usage Example
 
 ```python
+# --- Build ---
 builder = RGGBuilder(n=200, k=6, connectivity_regime="c", space="torus", seed=0)
 G = builder.build()
 
+# --- Analyse ---
 RGGBuilder.print_graph_stats(G, radius=builder.radius)
 RGGBuilder.plot_degree_distribution(G)
 
 res, preds, dists, pairs = RGGBuilder.sample_commute_times_even_distance(
     G, nsamples=300, n_bins=15, seed=1, min_dist=0.05
 )
+
+# --- Visualize ---
+viz = RGGVisualizer(G=G)
+viz.show_html("my_graph.html", largest_gc=False, metric="toroidal")
 ```
