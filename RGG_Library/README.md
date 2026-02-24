@@ -138,7 +138,7 @@ L, degs = RGGBuilder.laplacian_sparse(G)
 
 #### `effective_resistance_pair(L, u, v)`
 
-Computes the **effective resistance** between a single pair of nodes `u` and `v` by solving a grounded linear system derived from the Laplacian.
+Computes the **effective resistance** between a single pair of nodes `u` and `v` by solving a linear system derived from the Laplacian.
 
 ```python
 Reff = RGGBuilder.effective_resistance_pair(L, u=0, v=5)
