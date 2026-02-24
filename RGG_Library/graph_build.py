@@ -77,8 +77,8 @@ class RGGBuilder:
             # Calculate distance to order-th shell
             shell_dist = self._get_triangular_shell_distance(self.order, dx, dy)
             
-            # Add small buffer to ensure connections (1% extra)
-            return shell_dist * 1.01
+            # Add small buffer to ensure connections (0.01% extra)
+            return shell_dist * 1.0001
             
         elif self.space == 'square_torus':
             # For square lattice, calculate the shell distance
@@ -90,8 +90,8 @@ class RGGBuilder:
             
             shell_dist = self._get_square_shell_distance(self.order, dx, dy)
             
-            # Add small buffer to ensure connections (1% extra)
-            return shell_dist * 1.01
+            # Add small buffer to ensure connections (0.01% extra)
+            return shell_dist * 1.0001
             
         else:
             # Standard RGG radius formulas for torus and unit_square
