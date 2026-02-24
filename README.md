@@ -1,6 +1,6 @@
 # Random Geometric Graphs and Effective Resistance
 
-Repository for the study of asymptotic limits of effective resistances on Random Geometric Graphs (RGGs) with periodic boundary conditions.
+Repository for the study of thermodynamic limits of effective resistances on Random Geometric Graphs (RGGs) with periodic boundary conditions.
 
 ## Overview
 
