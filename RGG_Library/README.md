@@ -261,7 +261,7 @@ Simply open `my_graph.html` in any modern browser (Chrome, Firefox, Safari). No 
 |---|---|---|---|
 | `filename` | `str` | `"rgg.html"` | Path and name of the output HTML file. |
 | `largest_gc` | `bool` | `False` | If `True`, only renders the largest connected component. Recommended when using the supercritical (`"sc"`) regime, which may leave isolated nodes. |
-| `metric` | `str` | `"toroidal"` | Label shown in the plot title. Distance computations always use the toroidal metric regardless of this value. |
+| `metric` | `str` | `"toroidal"` | Label shown in the plot title. Currently distance computations always use the toroidal metric regardless of this value. |
 
 **Returns:** `str` — the output `filename`.
 
@@ -351,5 +351,5 @@ res, preds, dists, pairs = RGGBuilder.sample_commute_times_even_distance(
 
 # --- Visualize ---
 viz = RGGVisualizer(G=G)
-viz.show_html("my_graph.html", largest_gc=False, metric="toroidal")
+viz.show_html("my_graph.html", largest_gc=False)
 ```
