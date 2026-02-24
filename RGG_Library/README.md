@@ -12,6 +12,7 @@ A lightweight Python library for building, analyzing, and visualizing **Random G
 - `numpy`
 - `scipy`
 - `matplotlib`
+- `plotly`
 
 ---
 
