@@ -15,6 +15,19 @@ We use Lasso Regression to build models to predict effective resistance between 
 ### `RGG_Library`
 A custom built Python package for generating RGGs, with support for configurable system size, base space, mean degree, connectivity regimes, random seeds, and lattice structures, along with utilities for sampling commute times, computing graph statistics, and visualizing RGGs. More information in the RGG_Library README file.
 
+### `Original RGG Model Code`
+Provides the basic code used to run simulations of RGGs with nice visualizations of graph statistics, model fits, and interactive html graphs.
+Also includes basic code for train and test splits to reflect out-of-sample generalisation rather than in-sample memorisation.
+
+### `Lattice Perturbation Experiment`
+Studies the transition from lattices to approximated RGGs by perturbing vertices on lattices with bivariate normal distributions.
+
+### `Assymptotic Analysis of LASSO Model Fit Quality`
+Investigates the quality of the LASSO model fit in the phases between the super critical and connected regimes.
+
+### `LCC Plots`
+Produces graphs showing the appearance of the Large Connected Component for various RGG sizes. This is a nice visualization complementing results from Quintanilla et al. (2000) and Penrose (2003).
+
 ## References
 
 - J. Quintanilla, S. Torquato, and R. M. Ziff, *"Efficient measurement of the percolation threshold for fully penetrable discs,"* J. Phys. A: Math. Gen. **33**, L399–L407 (2000).
