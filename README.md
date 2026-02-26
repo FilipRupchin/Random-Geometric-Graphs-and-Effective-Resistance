@@ -17,7 +17,8 @@ A custom built Python package for generating RGGs, with support for configurable
 
 ### `Original RGG Model Code`
 Provides the basic code used to run simulations of RGGs with nice visualizations of graph statistics, model fits, and interactive html graphs.
-Also includes basic code for train and test splits to reflect out-of-sample generalisation rather than in-sample memorisation.
+Includes basic code for train and test splits to reflect out-of-sample generalisation rather than in-sample memorisation.
+Includes the simple square lattice with order 1, as well as more information on the terms selected to model effective resistance due to observations on the simple square lattice.
 
 ### `Lattice Perturbation Experiment`
 Studies the transition from lattices to approximated RGGs by perturbing vertices on lattices with bivariate normal distributions.
