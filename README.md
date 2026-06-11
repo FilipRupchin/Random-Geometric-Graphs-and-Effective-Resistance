@@ -23,8 +23,8 @@ Includes the simple square lattice with order 1, as well as more information on 
 ### `Lattice Perturbation Experiment`
 Studies the transition from lattices to approximated RGGs by perturbing vertices on lattices with normal distributions.
 
-### `Assymptotic Analysis of LASSO Model Fit Quality`
-Investigates the quality of the LASSO model fit in the super critical regime.
+### `Assymptotic Analysis of Model Fit Quality`
+Investigates the quality of the linear model fit in the super critical regime.
 
 ### `LCC Plots`
 Produces graphs showing the appearance of the Large Connected Component for various RGG sizes. This is a nice visualization complementing results from Quintanilla et al. (2000) and Penrose (2003).
