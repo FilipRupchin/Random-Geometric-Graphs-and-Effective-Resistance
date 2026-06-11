@@ -33,3 +33,5 @@ venv.bak
 # IDE specific (VS Code, PyCharm)
 .vscode/
 .idea/
+
+.DS_Store
